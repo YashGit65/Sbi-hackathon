@@ -1,6 +1,12 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+tox.ini
+.agents
+.uv-cache
+.uv-python
+reports
+
 
 # C extensions
 *.so

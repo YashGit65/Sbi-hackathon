@@ -1,0 +1,86 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion/data_ingestion.py
+    deps:
+    - path: src/data_ingestion/data_ingestion.py
+      hash: md5
+      md5: cd4101c676acdcba032cb83cb4ce1244
+      size: 4014
+    outs:
+    - path: data/raw/customer.csv
+      hash: md5
+      md5: 22dd7ade7c02ca0c3b93e11aa7b9097f
+      size: 69124
+    - path: data/raw/transactions.csv
+      hash: md5
+      md5: 24a75195f1ec9bbcca46b6052eceef4f
+      size: 646508
+  profile_agent:
+    cmd: python src/agents/profile_agent.py
+    deps:
+    - path: data/raw/customer.csv
+      hash: md5
+      md5: 22dd7ade7c02ca0c3b93e11aa7b9097f
+      size: 69124
+    - path: data/raw/transactions.csv
+      hash: md5
+      md5: 24a75195f1ec9bbcca46b6052eceef4f
+      size: 646508
+    - path: src/agents/profile_agent.py
+      hash: md5
+      md5: 7fb05ef8eb6c6c1746c867270d56f5f5
+      size: 2875
+    outs:
+    - path: data/processed/profile/customer_profiles.csv
+      hash: md5
+      md5: 6364c0a45e89057f37edd68c2ca99b58
+      size: 141761
+  goal_agent:
+    cmd: python src/agents/goal_agent.py
+    deps:
+    - path: data/processed/profile/customer_profiles.csv
+      hash: md5
+      md5: 6364c0a45e89057f37edd68c2ca99b58
+      size: 141761
+    - path: src/agents/goal_agent.py
+      hash: md5
+      md5: db479119c66d0108e8522ab4f899b43c
+      size: 5485
+    outs:
+    - path: data/processed/profile/customer_profiles-with-goals.csv
+      hash: md5
+      md5: ecac58a8cdd9813f6a1db70e6c542cc7
+      size: 311409
+  risk_agent:
+    cmd: python src/agents/risk_agent.py
+    deps:
+    - path: data/processed/profile/customer_profiles-with-goals.csv
+      hash: md5
+      md5: ecac58a8cdd9813f6a1db70e6c542cc7
+      size: 311409
+    - path: src/agents/risk_agent.py
+      hash: md5
+      md5: 73a63e3e8cf5f3da3890cf46ddc5a0f2
+      size: 1946
+    outs:
+    - path: data/customer_profile/customer_profiles.csv
+      hash: md5
+      md5: cbd697ac8ee6e1874729dda9aa367262
+      size: 322132
+  recommender:
+    cmd: python src/agents/recommender.py
+    deps:
+    - path: data/customer_profile/customer_profiles.csv
+      hash: md5
+      md5: cbd697ac8ee6e1874729dda9aa367262
+      size: 322132
+    - path: src/agents/recommender.py
+      hash: md5
+      md5: 6a6969f4fe0059c5d914f2793f655ce6
+      size: 3788
+    outs:
+    - path: data/recommendation/profile-recommended.csv
+      hash: md5
+      md5: 3767ff1462bba64ee3307f43f48bfabc
+      size: 692936

@@ -107,7 +107,7 @@ def generate_transactions(
                     "customer_id": customer_id,
                     "transaction_date": transaction_date.strftime("%Y-%m-%d"),
                     "category": rng.choice(TRANSACTION_CATEGORIES),
-                    "amount": rng.randint(100, 15000),
+                    "amount": rng.randint(1000, 7500),
                 }
             )
 
